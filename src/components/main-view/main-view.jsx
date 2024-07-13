@@ -1,38 +1,50 @@
 import { useState, useEffect } from "react";
 import { MovieCard } from "../movie-card/movie-card";
 import { MovieView } from "../movie-view/movie-view";
-
+import { LoginView } from "../login-view/login-view";
 
 export const MainView = () => {
-
-const [movies, setMovies] = useState([]);
-
-
+  const [movies, setMovies] = useState([]);
   const [selectedMovie, setSelectedMovie] = useState(null);
+  const [user, setUser] = useState(null);
 
   useEffect(() => {
-    fetch("https://xaviermovieapi-7207728f28d4.herokuapp.com/")
-        .then((response) => response.json())
-        .then(movies => {
-            setMovies(movies)
-        })
-        .catch(e => console.log(e))
+    fetch("https://openlibrary.org/search.json?q=star+wars")
+      .then((response) => response.json())
+      .then((data) => {
+        const moviesFromApi = data.docs.map((doc) => {
+          return {
+            id: doc.key,
+            title: doc.title,
+            image: `https://covers.openlibrary.org/b/id/${doc.cover_i}-L.jpg`,
+            author: doc.author_name?.[0],
+          };
+        });
 
-}, []);
-      
+        setMovies(moviesFromApi);
+      });
+  }, []);
+
+  if (!user) {
+    return <LoginView onLoggedIn={(user) => setUser(user)} />;
+  }
+
   if (selectedMovie) {
     return (
-      <MovieView movie={selectedMovie} onBackClick={() => setSelectedMovie(null)} />
+      <MovieView
+        movie={selectedMovie}
+        onBackClick={() => setSelectedMovie(null)}
+      />
     );
   }
 
-  if (movies.length === 0) {
+  if (movie.length === 0) {
     return <div>The list is empty!</div>;
   }
 
   return (
     <div>
-      {movies.map((movie) => (
+      {movie.map((movie) => (
         <MovieCard
           key={movie.id}
           movie={movie}
