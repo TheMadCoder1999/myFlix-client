@@ -4,6 +4,8 @@ import { MovieView } from "../movie-view/movie-view";
 import { LoginView } from "../login-view/login-view";
 
 export const MainView = () => {
+  const storedUser = JSON.parse(localStorage.getItem("user"));
+  const storedToken = localStorage.getItem("token");
   const [movies, setMovies] = useState([]);
   const [selectedMovie, setSelectedMovie] = useState(null);
   const [user, setUser] = useState(null);
@@ -79,4 +81,5 @@ export const MainView = () => {
   );
 };
 
-<button onClick={() => { setUser(null); setToken(null); }}>Logout</button>
+<button onClick={() => { setUser(null); setToken(null); 
+  localStorage.clear(); }}>Logout</button>
