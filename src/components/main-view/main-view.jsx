@@ -10,21 +10,22 @@ export const MainView = () => {
   const [token, setToken] = useState(null);
 
   useEffect(() => {
-    fetch("https://openlibrary.org/search.json?q=star+wars")
+    if (!token) {
+      return;
+    }
+
+    fetch("http://xaviermovieapi-7207728f28d4.herokuapp.com/movies", {
+      headers: { Authorization: `Bearer ${token}` }
+    })
       .then((response) => response.json())
       .then((data) => {
-        const moviesFromApi = data.docs.map((doc) => {
-          return {
-            id: doc.key,
-            title: doc.title,
-            image: `https://covers.openlibrary.org/b/id/${doc.cover_i}-L.jpg`,
-            author: doc.author_name?.[0],
-          };
-        });
-
-        setMovies(moviesFromApi);
+        console.log(data);
       });
-  }, []);
+  }, [token]);
+
+  //       setMovies(moviesFromApi);
+  //     });
+  // }, []);
 
   if (!user) {
         return (
@@ -77,3 +78,5 @@ export const MainView = () => {
     </div>
   );
 };
+
+<button onClick={() => { setUser(null); setToken(null); }}>Logout</button>
