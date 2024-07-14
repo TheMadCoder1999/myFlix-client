@@ -10,21 +10,43 @@ export const LoginView = ({ onLoggedIn }) => {
     event.preventDefault();
 
     const data = {
-      access: username,
-      secret: password
+      Username: username,
+      Password: password
     };
 
-    fetch("https://openlibrary.org/account/login.json", {
-      method: "POST",
-      body: JSON.stringify(data)
-    }).then((response) => {
-      if (response.ok) {
-        onLoggedIn(username);
+//     fetch("https://openlibrary.org/account/login.json", {
+//       method: "POST",
+//       body: JSON.stringify(data)
+//     }).then((response) => {
+//       if (response.ok) {
+//         onLoggedIn(username);
+//       } else {
+//         alert("Login failed");
+//       }
+//     });
+//   };
+
+
+fetch("http://xaviermovieapi-7207728f28d4.herokuapp.com/login", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify(data)
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      console.log("Login response: ", data);
+      if (data.user) {
+        onLoggedIn(data.user, data.token);
       } else {
-        alert("Login failed");
+        alert("No such user");
       }
+    })
+    .catch((e) => {
+      alert("Something went wrong");
     });
-  };
+};
 
   return (
     <form onSubmit={handleSubmit}>

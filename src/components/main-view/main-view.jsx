@@ -7,6 +7,7 @@ export const MainView = () => {
   const [movies, setMovies] = useState([]);
   const [selectedMovie, setSelectedMovie] = useState(null);
   const [user, setUser] = useState(null);
+  const [token, setToken] = useState(null);
 
   useEffect(() => {
     fetch("https://openlibrary.org/search.json?q=star+wars")
@@ -26,8 +27,17 @@ export const MainView = () => {
   }, []);
 
   if (!user) {
-    return <LoginView onLoggedIn={(user) => setUser(user)} />;
-  }
+        return (
+          <>
+            <LoginView onLoggedIn={(user, token) => {
+              setUser(user);
+              setToken(token);
+            }} />
+            or
+            <SignupView />
+          </>
+        );
+      }
 
   if (selectedMovie) {
     return (
