@@ -3,6 +3,7 @@ import { MovieCard } from "../movie-card/movie-card";
 import { MovieView } from "../movie-view/movie-view";
 import { LoginView } from "../login-view/login-view";
 import {SignupView} from "../signup-view/signup-view";
+import {Row, Col} from "react-bootstrap/Row";
 
 export const MainView = () => {
   const storedUser = JSON.parse(localStorage.getItem("user"));
@@ -52,7 +53,7 @@ export const MainView = () => {
     );
   }
 
-  if (books.length === 0) {
+  if (movies.length === 0) {
     return (
       <>
         <button
@@ -68,8 +69,9 @@ export const MainView = () => {
   }
 
   return (
-    <div>
+    <Row>
       {movie.map((movie) => (
+        <Col className = 'md5'>
         <MovieCard
           key={movie.id}
           movie={movie}
@@ -77,10 +79,10 @@ export const MainView = () => {
             setSelectedMovie(newSelectedMovie);
           }}
         />
+        </Col>
       ))}
-    </div>
+      <button onClick={() => { setUser(null); setToken(null); 
+        localStorage.clear(); }}>Logout</button>
+    </Row>
   );
 };
-
-<button onClick={() => { setUser(null); setToken(null); 
-  localStorage.clear(); }}>Logout</button>
