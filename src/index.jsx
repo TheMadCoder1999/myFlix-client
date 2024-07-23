@@ -10,7 +10,7 @@ import Container from 'react-bootstrap/Container';
 const MyFlixApplication = () => {
   return (
     <div className="my-flix">
-      <Container>
+      <Container style={{border: "1px solid red"}}>
         <MainView></MainView>
       </Container>
     </div>
