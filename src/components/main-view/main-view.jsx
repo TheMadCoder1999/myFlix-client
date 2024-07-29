@@ -71,20 +71,22 @@ export const MainView = () => {
   }
 
   return (
-    <Row>
-      {movie.map((movie) => (
-        <Col className = 'md5'>
-        <MovieCard
-          key={movie.id}
-          movie={movie}
-          onMovieClick={(newSelectedMovie) => {
-            setSelectedMovie(newSelectedMovie);
-          }}
-        />
-        </Col>
-      ))}
-      <button onClick={() => { setUser(null); setToken(null); 
-        localStorage.clear(); }}>Logout</button>
-    </Row>
+    <BrowserRouter>
+      <Row>
+        {movie.map((movie) => (
+          <Col className = 'md5'>
+          <MovieCard
+            key={movie.id}
+            movie={movie}
+            onMovieClick={(newSelectedMovie) => {
+              setSelectedMovie(newSelectedMovie);
+            }}
+          />
+          </Col>
+        ))}
+        <button onClick={() => { setUser(null); setToken(null); 
+          localStorage.clear(); }}>Logout</button>
+      </Row>
+    </BrowserRouter>
   );
 };
