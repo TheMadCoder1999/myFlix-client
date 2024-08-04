@@ -14,6 +14,8 @@ export const MainView = () => {
   const [selectedMovie, setSelectedMovie] = useState(null);
   const [user, setUser] = useState(null);
   const [token, setToken] = useState(null);
+  const [searchQuery, setSearchQuery] = user('');
+  const [filteredMovies, setFilteredMovies] = useState(movies);
 
   useEffect(() => {
     if (!token) {
@@ -32,6 +34,14 @@ export const MainView = () => {
   //       setMovies(moviesFromApi);
   //     });
   // }, []);
+
+  useEffect(() => {
+    setFilteredMovies(
+      movies.filter((movie) =>
+        movie.Title.toLowerCase().includes(searchQuery.toLowerCase())
+      )
+    );
+  }, [searchQuery, movies]);
 
   if (!user) {
         return (
@@ -73,7 +83,7 @@ export const MainView = () => {
   return (
     <BrowserRouter>
       <Row>
-        {movie.map((movie) => (
+        {filteredMovies.map((movie) => (
           <Col className = 'md5'>
           <MovieCard
             key={movie.id}
