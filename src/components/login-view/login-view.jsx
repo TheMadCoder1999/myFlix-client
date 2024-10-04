@@ -1,5 +1,6 @@
 import React from "react";
 import { useState } from "react";
+import { Form } from "react";
 
 export const LoginView = ({ onLoggedIn }) => {
   const [username, setUsername] = useState("");
@@ -38,6 +39,8 @@ fetch("http://xaviermovieapi-7207728f28d4.herokuapp.com/login", {
     .then((data) => {
       console.log("Login response: ", data);
       if (data.user) {
+        localStorage.setItem("user", JSON.stringify(data.user));
+        localStorage.setItem("token", data.token);
         onLoggedIn(data.user, data.token);
       } else {
         alert("No such user");
@@ -48,13 +51,6 @@ fetch("http://xaviermovieapi-7207728f28d4.herokuapp.com/login", {
     });
 };
 
-if (data.user) {
-  localStorage.setItem("user", JSON.stringify(data.user));
-  localStorage.setItem("token", data.token);
-  onLoggedIn(data.user, data.token);
-} else {
-  alert("No such user");
-}
 
 return (
   <Form onSubmit={handleSubmit}>
